@@ -74,10 +74,10 @@ const ChatApp = () => {
                         />
 
                         {inputData? 
-                            <Button bg='gray.300' borderRadius= {3} _focus= {{boxShadow: 'none'}} onClick={handleSend}> 
+                            <Button m='0 .5em' bg='gray.300' borderRadius= {3} _focus= {{boxShadow: 'none'}} onClick={handleSend}> 
                                 <Text> Send </Text> 
                             </Button> : 
-                            <Button bg='gray.300' _focus= {{boxShadow: 'none'}}> <AiFillLike size='2em' /></Button>}                   
+                            <Button m='0 .5em' bg='gray.300' _focus= {{boxShadow: 'none'}}> <AiFillLike size='2em' /></Button>}                   
                     </Flex>
                 
                 </Flex>
