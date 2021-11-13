@@ -1,4 +1,4 @@
-import { Flex,Box,Input,Button,Text } from "@chakra-ui/react"
+import { Flex,Box,Input,Button,Text,Textarea } from "@chakra-ui/react"
 import { AiFillLike,AiFillCamera,AiFillSmile,AiOutlineFileGif } from 'react-icons/ai'
 import { useState } from "react"
 
@@ -33,9 +33,10 @@ const ChatApp = () => {
                             >{icon}</Button>
                         })}
 
-                        <Input 
-                        type='text' 
-                        borderColor='gray' 
+                        <Textarea
+                        rows='1'
+                        resize='none'
+                        borderColor='gray'  
                         wordBreak='break-all' 
                         onChange = {handleChange}
                         value = {inputData}
