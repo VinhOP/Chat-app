@@ -7,7 +7,7 @@ const icons = [<AiFillCamera size='2em'/>,<AiFillSmile size='2em' />, <AiOutline
 
 const ChatApp = () => {
 
-    const [inputData, setInputData] = useState('')
+    const [inputData, setInputData] = useState()
     const [messages, setMessages] = useState([])
 
     const handleChange = ((e) => {
@@ -17,6 +17,15 @@ const ChatApp = () => {
 
     const handleSend = (() => {
         setMessages([...messages, inputData])
+        setInputData('')
+    })
+
+    const handleKeyPress= ((e) => {
+       if(e.key === 'Enter') 
+       {
+           e.preventDefault();
+           if(inputData) handleSend();
+       }
     })
 
     useEffect(() => {
@@ -40,26 +49,27 @@ const ChatApp = () => {
                     borderColor='gray' 
                     borderRadius={7}>
                         {messages && messages.map((mess) => {
-                           return   <Flex bg='blue.200' borderRadius={18} p='.5em 1em' m='.5em 1em'>
+                           return   <Flex bg='blue.200' borderRadius={18} p='.5em 1em' m='.6em'>
                                         <Text> {mess}</Text> 
                                     </Flex>
                         })}
                     </Flex>
-
-                    <Flex bg='white' >
+                    <Flex mt='.5em' alignItems='center'>
                         {icons.map((icon) => {
-                            return <Button 
+                            return <Button
                             _focus= {{boxShadow: 'none'}}
                             borderRadius= 'none'
                             >{icon}</Button>
                         })}
 
                         <Textarea
-                        cols='1'
+                        rows='1'
+                        overflow='hidden'
                         resize='none'
                         borderColor='gray' 
                         wordBreak='break-all' 
                         onChange = {handleChange}
+                        onKeyPress={handleKeyPress}
                         value = {inputData}
                         />
 
@@ -67,8 +77,9 @@ const ChatApp = () => {
                             <Button bg='gray.300' borderRadius= {3} _focus= {{boxShadow: 'none'}} onClick={handleSend}> 
                                 <Text> Send </Text> 
                             </Button> : 
-                            <Button bg='gray.300'> <AiFillLike size='2em' /></Button>}                   
+                            <Button bg='gray.300' _focus= {{boxShadow: 'none'}}> <AiFillLike size='2em' /></Button>}                   
                     </Flex>
+                
                 </Flex>
                         {/** ------------------------------------------------------ */}
                 <Flex w='20em' bg='white'>
