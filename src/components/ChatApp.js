@@ -43,10 +43,10 @@ const ChatApp = () => {
                         />
 
                         {inputData? 
-                            <Button _focus= {{boxShadow: 'none'}}> 
-                                <Text fontSize='1.1em'> Send </Text> 
+                            <Button bg='gray.300' _focus= {{boxShadow: 'none'}}> 
+                                <Text> Send </Text> 
                             </Button> : 
-                            <Button> <AiFillLike size='2em' /></Button>}                   
+                            <Button bg='gray.300'> <AiFillLike size='2em' /></Button>}                   
                     </Flex>
                 </Flex>
                         {/** ------------------------------------------------------ */}
