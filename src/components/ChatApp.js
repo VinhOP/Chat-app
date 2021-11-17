@@ -4,14 +4,30 @@ import { useState,useEffect } from "react"
 import { Link } from "react-router-dom";
 import { v4 as uuidv4 } from 'uuid'
 import moment, { Moment } from "moment";
+import EmojiPicker from "emoji-picker-react";
 
-const icons = [<AiFillCamera size='2em'/>,<AiFillSmile size='2em' />, <AiOutlineFileGif size='2em' />]
+const icons = [<AiFillCamera size='2em' />,<AiFillSmile size='2em' />, <AiOutlineFileGif size='2em' />]
 const ChatApp = () => {
     
-    const [inputData, setInputData] = useState()
+    const [inputData, setInputData] = useState([])
     const [userIndex, setUserIndex] = useState()
     const [myID, setMyID] = useState(1)
-    //const [userID, setUserID] = useState(uuidv4)
+    const [showEmoList, setShowEmoList] = useState(false)
+
+    const [chosenEmoji, setChosenEmoji] = useState([]);
+
+    const onEmojiClick = (event, emojiObject) => {
+        setChosenEmoji(emojiObject);
+        console.log(chosenEmoji)
+    }
+
+    useEffect(() => {
+        //setInputData([...inputData, chosenEmoji.emoji])
+    },[chosenEmoji])
+
+    useEffect(() => {
+        console.log(userIndex)
+    },[userIndex])
 
     const [users, setUsers] = useState([
         {
@@ -49,7 +65,8 @@ const ChatApp = () => {
             ]
         }
     ])
-
+    
+    const user = users.find(user => user.id == userIndex)
     const handleChange = ((e) => {
         const { value } = e.target
         setInputData(value)
@@ -62,15 +79,16 @@ const ChatApp = () => {
             createAt: moment(new Date()).format("dddd, h:mm:ss a"),
             userID: myID,
         }
-        users[userIndex].messages = [...users[userIndex].messages, message]
+        user.messages = [...user.messages, message]
         setUsers([...users])
         setInputData('')
         console.log(users)
     })
 
-    const handleSelectUser = ((user, index) => {
-        setUserIndex(index)
-    })
+    const handleSelectUser = (e) => {
+        const {id} = e.currentTarget
+        setUserIndex(id)
+    }
 
     const handleKeyPress= ((e) => {
        if(e.key === 'Enter') 
@@ -80,9 +98,24 @@ const ChatApp = () => {
        }
     })
 
+    const handleClick = ((icon, index) => {
+        switch(index){
+            case 0:
+                break;
+            case 1:
+                
+                console.log('a')
+                break;
+        }
+    })
+
+    const handleShowEmo =(() => {
+        setShowEmoList(!showEmoList)
+    })
+
     return ( 
         <>
-        <Box bg='gray.100'>
+        <Flex bg='gray.100' justifyContent='center' flexDir='column'>
             <Flex bg='blue.200' justifyContent='space-between' alignItems='center'>
                 <Flex />
                 <Flex>
@@ -96,45 +129,48 @@ const ChatApp = () => {
             </Flex>
             
             
-            <Flex justifyContent='space-between' p='3em'>
+            <Flex justifyContent='center' p='3em'>
 
                         {/** --------------------- Chat Box --------------- */}
-                <Flex flexDirection='column' justifyContent='center' w='full' mr='.5em' bg='white'>
-                    <Flex flexDirection='column'
+                <Flex flexDir='column' justifyContent='center' mr='.5em' bg='white' h='30em'>
+                    <Flex 
                     h='30em'
+                    w='60em'
                     border='2px solid' 
                     borderColor='gray'
-                    justifyContent='flex-end'
+                    flexDirection='column'
+                    overflowY='scroll'
+
                     >
-                        {(userIndex != null && users[userIndex].messages.length > 0) && users[userIndex].messages.map(mes => {
-                            return <Flex> 
-                                    {users[userIndex].id == mes.userID? <Flex w='full' justifyContent='flex-start'>
-                                        <Text 
-                                        bg='gray.300'
-                                        p='.5em 1em'
-                                        m='.5em 1em'
-                                        borderRadius={15}
-                                        > {mes.mes} </Text> <Text m='1em 0' color='gray.500'> {mes.createAt} </Text>
-                                    </Flex>: 
-                                    <Flex w='full' justifyContent='flex-end'>
-                                        <Text m='1em 0' color='gray.500'> {mes.createAt} </Text>
-                                        <Text 
-                                        bg='blue.300'
-                                        p='.5em 1em'
-                                        m='.5em 1em'
-                                        borderRadius={15}
-                                        > {mes.mes} </Text> 
-                                    </Flex>}
+                        {(userIndex != null && user.messages.length > 0) && user.messages.map(mes => {
+                            return  <Flex>
+                                    <Flex 
+                                    w='full'
+                                    flexDir='column'
+                                    >
+                                      <Flex alignSelf='center'>  <Text m='1em 0' color='gray.500'> {mes.createAt} </Text> </Flex>
+                                        <Flex 
+                                        alignSelf = {user.id == mes.userID? 'flex-start' : 'flex-end' }
+                                        > 
+                                            <Text 
+                                            w='fit'
+                                            bg={user.id == mes.userID? 'gray.200': 'blue.200'}
+                                            p='.5em 1em'
+                                            m='.5em 1em'
+                                            borderRadius={15}
+                                            > {mes.mes} 
+                                            </Text> 
+                                        </Flex>
+                                    </Flex>
                                 </Flex>
                         })}
                     </Flex>
                     {userIndex != null && <Flex mt='.5em' alignItems='center'>
-                        {icons.map((icon) => {
-                            return <Button
-                            _focus= {{boxShadow: 'none'}}
-                            borderRadius= 'none'
-                            >{icon}</Button>
-                        })}
+                        <Button onClick={handleShowEmo}> <AiFillSmile /> </Button>
+                        {showEmoList && <Flex>
+                            <EmojiPicker disableSearchBar onEmojiClick={onEmojiClick}/>
+                        </Flex>}
+                   
                         
                         <Textarea
                         rows = '1'
@@ -167,18 +203,21 @@ const ChatApp = () => {
                 </Flex>
                         {/** ------------------------------------------------------ */}
                 <Flex w='20em' bg='white' flexDirection='column'>
-                    {users.map((user, index) => {
+                    {users.map(user => {
                         return <Button 
-                        onClick={() => handleSelectUser(user, index)} 
-                        bg='blue.200' 
-                        _focus={{boxShadow: 'none'}} 
-                        p='2em' mb='1em' h='4em'>
-                                    <Text> {user.name} </Text>
+                                onClick={handleSelectUser} 
+                                id = {user.id}
+                                bg='blue.200' 
+                                _focus={{boxShadow: 'none'}} 
+                                p='2em' mb='1em' h='4em'
+                                
+                                >
+                                    <Text> {user.name}  </Text>
                                 </Button>
                     })}
                 </Flex>
             </Flex>
-        </Box>
+        </Flex>
         </>
      )
 }
