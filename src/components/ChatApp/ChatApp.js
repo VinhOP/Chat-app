@@ -1,10 +1,12 @@
-import { Input } from "@chakra-ui/input";
+import Header from "./Header";
+import Main from "./Main/Main";
 
 const ChatApp = () => {
+    
     return ( 
         <>
         <Header />
-        <Input />
+        <Main />
         </>
      );
 }
