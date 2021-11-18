@@ -1,9 +1,11 @@
 import MessageItem from "./MessageItem";
 import { Flex } from "@chakra-ui/react";
-import { useEffect,useRef } from "react";
+import { useContext, useEffect,useRef } from "react";
+import { ChatAppContext } from "../../../contexts/ChatAppContext";
 
-const ListMessage = ({users,user,userIndex}) => {
+const ListMessage = ({userIndex}) => {
 
+    const {users, user} = useContext(ChatAppContext)
     const ref = useRef(null)
 
     useEffect(() => {

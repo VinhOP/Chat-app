@@ -1,25 +1,30 @@
 import EmojiPicker from "emoji-picker-react";
 import { v4 as uuidv4 } from 'uuid'
-import { useState,useEffect, useRef } from "react"
+import { useState,useEffect, useRef, useContext } from "react"
 import { Flex,Textarea,Button,Text } from "@chakra-ui/react";
 import moment, { Moment } from "moment";
 import { AiFillSmile,AiFillLike } from "react-icons/ai";
+import { ChatAppContext } from "../../../contexts/ChatAppContext";
 
 
-const InputControl = ({users,user,setUsers,userIndex}) => {
+const InputControl = ({setUsers,userIndex}) => {
 
+    const {users, user} = useContext(ChatAppContext)
     const [inputData, setInputData] = useState([])
     const [myID, setMyID] = useState(1)
     const [showEmoList, setShowEmoList] = useState(false)
 
     const textareaRef = useRef(null)
 
+    useEffect(() => {
+        setInputData('')
+    }, [userIndex])
+
     const onEmojiClick = (event, emojiObject) => {
         const {selectionStart , selectionEnd} = textareaRef.current
         const newValue = inputData.slice(0, selectionStart) + emojiObject.emoji + inputData.slice(selectionEnd)
         textareaRef.current.focus()
         setInputData(newValue)
-        console.log(inputData)
     }
 
     const handleChange = ((e) => {

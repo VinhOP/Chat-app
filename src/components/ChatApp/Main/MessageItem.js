@@ -1,12 +1,11 @@
 import { Flex,Text } from "@chakra-ui/react";
 
 const MessageItem = ({user,userIndex}) => {
-console.log(userIndex)
-console.log(user)
+
     return ( 
         <>
-        {(userIndex != null && user.messages.length > 0) && user.messages.map(mes => {
-            return  <Flex>
+        {(userIndex != null && user.messages.length > 0) && user.messages.map((mes,index) => {
+            return  <Flex key={index}>
                     <Flex 
                     w='full'
                     flexDir='column'

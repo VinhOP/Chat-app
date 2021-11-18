@@ -1,7 +1,10 @@
 import { Flex,Button,Text } from "@chakra-ui/react"
-import { useState } from "react"
+import { useContext, useState } from "react"
+import { ChatAppContext } from "../../../contexts/ChatAppContext"
 
-const ListUser = ({users,setUserIndex}) => {
+const ListUser = () => {
+
+    const {users,setUserIndex} = useContext(ChatAppContext)
 
     const handleSelectUser = (e) => {
         const {id} = e.currentTarget
@@ -10,13 +13,16 @@ const ListUser = ({users,setUserIndex}) => {
 
     return ( 
         <Flex w='20em' bg='white' flexDirection='column'>
-                    {users.map(user => {
+                    {users.map((user,index) => {
                         return <Button 
+                                key= {index}
                                 onClick={handleSelectUser} 
                                 id = {user.id}
                                 bg='blue.200' 
                                 _focus={{boxShadow: 'none'}} 
-                                p='2em' mb='1em' h='4em'
+                                p='2em' 
+                                mb='1em' 
+                                h='4em'
                                 >
                                     <Text> {user.name}  </Text>
                                 </Button>

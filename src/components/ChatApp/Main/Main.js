@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid'
 import moment, { Moment } from "moment";
 import { useEffect, useState } from "react";
 import { Flex } from "@chakra-ui/layout";
-
+import { ChatAppContext } from "../../../contexts/ChatAppContext";
 
 const Main = () => {
 
@@ -51,8 +51,10 @@ const Main = () => {
 
     return ( 
         <Flex justifyContent='center' p='3em'>
-            <ChatBoard users={users} user={user} setUsers={setUsers} userIndex={userIndex} setUserIndex={setUserIndex}/>
-            <ListUser users={users} setUserIndex={setUserIndex}/>
+            <ChatAppContext.Provider value={{users, user, setUserIndex, userIndex}}>
+                <ChatBoard  setUsers={setUsers}  />
+                <ListUser />
+            </ChatAppContext.Provider>
         </Flex>
      );
 }
