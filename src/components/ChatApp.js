@@ -1,6 +1,6 @@
-import { Flex,Box,Input,Button,Text,Textarea,FormControl,Center } from "@chakra-ui/react"
+import { Flex,Button,Text,Textarea,Input } from "@chakra-ui/react"
 import { AiFillLike,AiFillCamera,AiFillSmile,AiOutlineFileGif } from 'react-icons/ai'
-import { useState,useEffect } from "react"
+import { useState,useEffect, useRef } from "react"
 import { Link } from "react-router-dom";
 import { v4 as uuidv4 } from 'uuid'
 import moment, { Moment } from "moment";
@@ -14,20 +14,16 @@ const ChatApp = () => {
     const [myID, setMyID] = useState(1)
     const [showEmoList, setShowEmoList] = useState(false)
 
-    const [chosenEmoji, setChosenEmoji] = useState([]);
+    const ref = useRef(null)
+    const textareaRef = useRef(null)
 
     const onEmojiClick = (event, emojiObject) => {
-        setChosenEmoji(emojiObject);
-        console.log(chosenEmoji)
+        const {selectionStart , selectionEnd} = textareaRef.current
+        const newValue = inputData.slice(0, selectionStart) + emojiObject.emoji + inputData.slice(selectionEnd)
+        textareaRef.current.focus()
+        setInputData(newValue)
+        console.log(inputData)
     }
-
-    useEffect(() => {
-        //setInputData([...inputData, chosenEmoji.emoji])
-    },[chosenEmoji])
-
-    useEffect(() => {
-        console.log(userIndex)
-    },[userIndex])
 
     const [users, setUsers] = useState([
         {
@@ -67,6 +63,11 @@ const ChatApp = () => {
     ])
     
     const user = users.find(user => user.id == userIndex)
+    
+    useEffect(() => {
+        ref.current.scrollIntoView()
+    },[users])
+
     const handleChange = ((e) => {
         const { value } = e.target
         setInputData(value)
@@ -82,7 +83,6 @@ const ChatApp = () => {
         user.messages = [...user.messages, message]
         setUsers([...users])
         setInputData('')
-        console.log(users)
     })
 
     const handleSelectUser = (e) => {
@@ -132,7 +132,7 @@ const ChatApp = () => {
             <Flex justifyContent='center' p='3em'>
 
                         {/** --------------------- Chat Box --------------- */}
-                <Flex flexDir='column' justifyContent='center' mr='.5em' bg='white' h='30em'>
+                <Flex flexDir='column' justifyContent='center' mr='.5em' bg='white' h='30em'    >
                     <Flex 
                     h='30em'
                     w='60em'
@@ -140,7 +140,6 @@ const ChatApp = () => {
                     borderColor='gray'
                     flexDirection='column'
                     overflowY='scroll'
-
                     >
                         {(userIndex != null && user.messages.length > 0) && user.messages.map(mes => {
                             return  <Flex>
@@ -164,6 +163,7 @@ const ChatApp = () => {
                                     </Flex>
                                 </Flex>
                         })}
+                        <div ref={ref} />
                     </Flex>
                     {userIndex != null && <Flex mt='.5em' alignItems='center'>
                         <Button onClick={handleShowEmo}> <AiFillSmile /> </Button>
@@ -181,6 +181,7 @@ const ChatApp = () => {
                         onChange = {handleChange}
                         onKeyPress = {handleKeyPress}
                         value = {inputData}
+                        ref = {textareaRef}
                         />
 
                         {inputData? 
@@ -202,6 +203,7 @@ const ChatApp = () => {
                             
                 </Flex>
                         {/** ------------------------------------------------------ */}
+
                 <Flex w='20em' bg='white' flexDirection='column'>
                     {users.map(user => {
                         return <Button 
@@ -210,7 +212,6 @@ const ChatApp = () => {
                                 bg='blue.200' 
                                 _focus={{boxShadow: 'none'}} 
                                 p='2em' mb='1em' h='4em'
-                                
                                 >
                                     <Text> {user.name}  </Text>
                                 </Button>
