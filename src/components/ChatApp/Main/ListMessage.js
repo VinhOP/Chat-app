@@ -1,11 +1,12 @@
 import MessageItem from "./MessageItem";
 import { Flex } from "@chakra-ui/react";
-import { useContext, useEffect,useRef } from "react";
+import { useEffect,useRef } from "react";
+import { useContext } from "react/cjs/react.development";
 import { ChatAppContext } from "../../../contexts/ChatAppContext";
 
-const ListMessage = ({userIndex}) => {
+const ListMessage = () => {
 
-    const {users, user} = useContext(ChatAppContext)
+    const {users} = useContext(ChatAppContext)
     const ref = useRef(null)
 
     useEffect(() => {
@@ -21,7 +22,7 @@ const ListMessage = ({userIndex}) => {
         flexDirection='column'
         overflowY='scroll'
         >
-            <MessageItem user={user} userIndex={userIndex}/>
+            <MessageItem />
             <div ref={ref} />
         </Flex>
      );

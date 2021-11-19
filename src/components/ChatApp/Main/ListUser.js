@@ -4,7 +4,7 @@ import { ChatAppContext } from "../../../contexts/ChatAppContext"
 
 const ListUser = () => {
 
-    const {users,setUserIndex} = useContext(ChatAppContext)
+    const { users,setUserIndex } = useContext(ChatAppContext)
 
     const handleSelectUser = (e) => {
         const {id} = e.currentTarget
@@ -13,9 +13,9 @@ const ListUser = () => {
 
     return ( 
         <Flex w='20em' bg='white' flexDirection='column'>
-                    {users.map((user,index) => {
+                    {users.map(user => {
                         return <Button 
-                                key= {index}
+                                key= {user.id}
                                 onClick={handleSelectUser} 
                                 id = {user.id}
                                 bg='blue.200' 

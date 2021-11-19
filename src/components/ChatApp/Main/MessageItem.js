@@ -1,11 +1,16 @@
 import { Flex,Text } from "@chakra-ui/react";
+import { useContext } from "react"
+import { ChatAppContext } from "../../../contexts/ChatAppContext";
 
-const MessageItem = ({user,userIndex}) => {
+
+const MessageItem = () => {
+    
+    const {user, userIndex} = useContext(ChatAppContext)
 
     return ( 
         <>
-        {(userIndex != null && user.messages.length > 0) && user.messages.map((mes,index) => {
-            return  <Flex key={index}>
+        {(userIndex != null && user.messages.length > 0) && user.messages.map((mes) => {
+            return  <Flex key={mes.id}>
                     <Flex 
                     w='full'
                     flexDir='column'

@@ -7,9 +7,10 @@ import { AiFillSmile,AiFillLike } from "react-icons/ai";
 import { ChatAppContext } from "../../../contexts/ChatAppContext";
 
 
-const InputControl = ({setUsers,userIndex}) => {
+const InputControl = () => {
 
-    const {users, user} = useContext(ChatAppContext)
+    const { setUsers,userIndex,users,user } = useContext(ChatAppContext)
+
     const [inputData, setInputData] = useState([])
     const [myID, setMyID] = useState(1)
     const [showEmoList, setShowEmoList] = useState(false)
@@ -35,7 +36,7 @@ const InputControl = ({setUsers,userIndex}) => {
     const handleSend = (() => {
         
         const message = {
-            id: uuidv4,
+            id: uuidv4(),
             mes: inputData,
             createAt: moment(new Date()).format("dddd, h:mm:ss a"),
             userID: myID,
@@ -43,6 +44,7 @@ const InputControl = ({setUsers,userIndex}) => {
         user.messages = [...user.messages, message]
         setUsers([...users])
         setInputData('')
+        console.log(user.messages)
     })
 
     const handleKeyPress= ((e) => {
