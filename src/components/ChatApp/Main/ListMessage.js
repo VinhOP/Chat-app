@@ -3,10 +3,11 @@ import { Flex } from "@chakra-ui/react";
 import { useEffect,useRef } from "react";
 import { useContext } from "react/cjs/react.development";
 import { ChatAppContext } from "../../../contexts/ChatAppContext";
+import {useSelector} from 'react-redux'
 
 const ListMessage = () => {
 
-    const {users} = useContext(ChatAppContext)
+    const users = useSelector((state) => state.users)
     const ref = useRef(null)
 
     useEffect(() => {

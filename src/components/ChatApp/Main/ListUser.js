@@ -1,14 +1,19 @@
 import { Flex,Button,Text } from "@chakra-ui/react"
 import { useContext, useState } from "react"
+import { useDispatch, useSelector } from 'react-redux'
 import { ChatAppContext } from "../../../contexts/ChatAppContext"
+import userIndex, { update } from '../../../features/userIndex'
 
 const ListUser = () => {
 
-    const { users,setUserIndex } = useContext(ChatAppContext)
+    const dispatch = useDispatch()
+    //const { setUserIndex } = useContext(ChatAppContext)
+    const users = useSelector((state) => state.users)
 
     const handleSelectUser = (e) => {
         const {id} = e.currentTarget
-        setUserIndex(id)
+        //setUserIndex(id)
+        dispatch(update(id))
     }
 
     return ( 
@@ -24,7 +29,7 @@ const ListUser = () => {
                                 mb='1em' 
                                 h='4em'
                                 >
-                                    <Text> {user.name}  </Text>
+                                    <Text> {user.name} </Text>
                                 </Button>
                     })}
         </Flex>
