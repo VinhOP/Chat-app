@@ -6,7 +6,7 @@ const Header = () => {
             <Flex bg='blue.200' justifyContent='space-between' alignItems='center'>
                 <Flex />
                 <Flex>
-                    <Text fontSize='2em' align='center' fontWeight='bold' > Chat App</Text>
+                    <Text fontSize='2em' align='center' fontWeight='bold' justifyContent='center' > Chat App</Text>
                 </Flex>
             </Flex>
      );
