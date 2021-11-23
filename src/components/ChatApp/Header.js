@@ -1,5 +1,5 @@
 import { Flex,Text,Button } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+//import { Link } from "react-router-dom";
 
 const Header = () => {
     return ( 
@@ -7,11 +7,6 @@ const Header = () => {
                 <Flex />
                 <Flex>
                     <Text fontSize='2em' align='center' fontWeight='bold' > Chat App</Text>
-                </Flex>
-                <Flex>
-                    <Link to='/login'> 
-                        <Button m=' 0 .5em'>Log in</Button> 
-                    </Link>
                 </Flex>
             </Flex>
      );
