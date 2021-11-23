@@ -2,7 +2,7 @@
   "name": "chat-app",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://VinhOP.github.io/Chat-app",
+  "homepage": "https://vinhop.github.io/Chat-app/",
   "dependencies": {
     "@chakra-ui/react": "^1.6.10",
     "@emotion/react": "^11.5.0",
