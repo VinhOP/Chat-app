@@ -1,20 +1,25 @@
 import { Flex,Text } from "@chakra-ui/react";
 import { useContext } from "react"
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ChatAppContext } from "../../../contexts/ChatAppContext";
+import { findUser } from "../../../features/user";
 
 
 const MessageItem = () => {
     
-    //const { userIndex } = useContext(ChatAppContext)
-    const userIndex = useSelector((state) => state.userIndex.value)
+    const dispatch = useDispatch()
     const users = useSelector((state) => state.users)
-    const user = users.find(user => user.id == userIndex)
-    console.log(userIndex)
+    const selectedUser = useSelector((state) => state.selectedUser.value)
+    
+    dispatch(findUser({
+        users: users,
+        selectedUser: selectedUser
+    }))
+    const user = useSelector((state) => state.user.value)
     
     return ( 
         <>
-        {(userIndex != null && user.messages.length > 0) && user.messages.map((mes) => {
+        {(selectedUser != null && user.messages.length > 0) && user.messages.map((mes) => {
             return  <Flex key={mes.id}>
                     <Flex 
                     w='full'

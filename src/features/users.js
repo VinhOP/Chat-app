@@ -43,17 +43,11 @@ export const usersSlice = createSlice({
     name: 'users',
     initialState: initialStateValue,
     reducers: {
-        sendMessage: (state,action)  => {
-            const userIndex = action.payload.userIndex
-            const user = state.find(user => user.id == userIndex)
+        sendMessage: (state,action) => {
+            const message = action.payload.message
+            const selectedUser = action.payload.selectedUser
 
-            const message = {
-                id: uuidv4(),
-                mes: action.payload.mes,
-                createAt: moment(new Date()).format("dddd, h:mm:ss a"),
-                userID: action.payload.userID,
-            }
-            
+            const user = state.find(user => user.id == selectedUser)
             user.messages.push(message)
         },
     }

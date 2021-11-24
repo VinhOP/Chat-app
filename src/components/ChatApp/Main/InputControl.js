@@ -1,42 +1,50 @@
-
 import { useState,useEffect, useRef, useContext } from "react"
 import { Flex,Textarea,Button,Text } from "@chakra-ui/react";
 import { AiFillSmile,AiFillLike } from "react-icons/ai";
 import { ChatAppContext } from "../../../contexts/ChatAppContext";
 import { useSelector,useDispatch } from "react-redux";
-import { sendMessage } from "../../../features/users";
+import { storeMessage } from "../../../features/message";
 import InputEmoji from "react-input-emoji"
+import { sendMessage } from "../../../features/users";
 
 const InputControl = () => {
 
-    //const { userIndex } = useContext(ChatAppContext)
-    const userIndex = useSelector((state) => state.userIndex.value)
+    const selectedUser = useSelector((state) => state.selectedUser.value)
+    const message = useSelector((state) => state.message.value)
+    const user = useSelector((state) => state.user.value)
 
     const [inputData, setInputData] = useState([])
     const [myID, setMyID] = useState(1)
-    const [showEmoList, setShowEmoList] = useState(false)
-
     const dispatch = useDispatch()
 
     useEffect(() => {
         setInputData('')
-    }, [userIndex])
+    }, [selectedUser])
+
+    useEffect(() => {
+        message && dispatch(sendMessage({
+            selectedUser: selectedUser,
+            message: message,
+        }))
+        console.log(message)
+        
+    }, [message])
 
     const handleSend = (() => {
-        dispatch(sendMessage({
-            userIndex: userIndex,
+        dispatch(storeMessage({
+            selectedUser: selectedUser,
             mes: inputData,
             userID: myID,
         }))
         setInputData('')
     })
-
+    
     const handleEnter = ((e) => {
         inputData && handleSend();
     })
     return ( 
         <>
-        {userIndex != null && <Flex mt='.5em' alignItems='center'>
+        {selectedUser != null && <Flex mt='.5em' alignItems='center'>
                         <Flex w='55em'>
                             <InputEmoji
                             onChange = {setInputData}

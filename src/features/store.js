@@ -1,10 +1,14 @@
-import {configureStore} from '@reduxjs/toolkit'
+import { configureStore } from '@reduxjs/toolkit'
 import usersReducer from './users'
-import userIndexReducer from './userIndex'
+import userReducer from './user'
+import messageReducer from './message'
+import selectedUserReducer from './selectedUser'
 
 export const store = configureStore({
     reducer: {
       users: usersReducer,
-      userIndex: userIndexReducer,
+      user: userReducer,
+      message: messageReducer,
+      selectedUser: selectedUserReducer
     }
 })
