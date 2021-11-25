@@ -1,25 +1,14 @@
 import { Flex,Text } from "@chakra-ui/react";
-import { useContext } from "react"
 import { useDispatch, useSelector } from "react-redux";
-import { ChatAppContext } from "../../../contexts/ChatAppContext";
-import { findUser } from "../../../features/user";
-
 
 const MessageItem = () => {
     
-    const dispatch = useDispatch()
-    const users = useSelector((state) => state.users)
-    const selectedUser = useSelector((state) => state.selectedUser.value)
-    
-    dispatch(findUser({
-        users: users,
-        selectedUser: selectedUser
-    }))
-    const user = useSelector((state) => state.user.value)
-    
+    const { userSelected }= useSelector((state) => state.user)
+    const message = useSelector((state) => state.message)
+
     return ( 
         <>
-        {(selectedUser != null && user.messages.length > 0) && user.messages.map((mes) => {
+        {(userSelected != null) && message.messages[userSelected.id].map((mes) => {
             return  <Flex key={mes.id}>
                     <Flex 
                     w='full'
@@ -27,15 +16,15 @@ const MessageItem = () => {
                     >
                       <Flex alignSelf='center'>  <Text m='1em 0' color='gray.500'> {mes.createAt} </Text> </Flex>
                         <Flex 
-                        alignSelf = {user.id == mes.userID? 'flex-start' : 'flex-end' }
+                        alignSelf = {userSelected.id == mes.userID? 'flex-start' : 'flex-end'}
                         > 
                             <Text 
                             w='fit'
-                            bg={user.id == mes.userID? 'gray.200': 'blue.200'}
+                            bg={userSelected.id == mes.userID? 'gray.200': 'blue.200'}
                             p='.5em 1em'
                             m='.5em 1em'
                             borderRadius={15}
-                            > {mes.mes} 
+                            > {mes.message} 
                             </Text> 
                         </Flex>
                     </Flex>
@@ -44,5 +33,5 @@ const MessageItem = () => {
         </>
      );
 }
- 
+
 export default MessageItem;

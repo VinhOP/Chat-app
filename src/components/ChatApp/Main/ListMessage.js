@@ -1,18 +1,17 @@
 import MessageItem from "./MessageItem";
 import { Flex } from "@chakra-ui/react";
 import { useEffect,useRef } from "react";
-import { useContext } from "react/cjs/react.development";
-import { ChatAppContext } from "../../../contexts/ChatAppContext";
 import {useSelector} from 'react-redux'
 
 const ListMessage = () => {
 
-    const users = useSelector((state) => state.users)
+    const { message }= useSelector((state) => state)
+    const { userSelected } = useSelector((state) => state.user)
     const ref = useRef(null)
 
     useEffect(() => {
         ref.current.scrollIntoView()
-    },[users])
+    },[message, userSelected])
 
     return ( 
         <Flex 

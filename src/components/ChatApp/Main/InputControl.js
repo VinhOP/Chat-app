@@ -1,47 +1,31 @@
 import { useState,useEffect, useRef, useContext } from "react"
 import { Flex,Textarea,Button,Text } from "@chakra-ui/react";
 import { AiFillSmile,AiFillLike } from "react-icons/ai";
-import { ChatAppContext } from "../../../contexts/ChatAppContext";
 import { useSelector,useDispatch } from "react-redux";
-import { storeMessage } from "../../../features/message";
-import InputEmoji from "react-input-emoji"
-import { sendMessage } from "../../../features/users";
+import InputEmoji from "react-input-emoji";
+import { addMessage } from "../../../store/message/reducer";
 
 const InputControl = () => {
 
-    const selectedUser = useSelector((state) => state.selectedUser.value)
-    const message = useSelector((state) => state.message.value)
-    const user = useSelector((state) => state.user.value)
-
-    const [inputData, setInputData] = useState([])
-    const [myID, setMyID] = useState(1)
+    const selectedUser = useSelector((state) => state.user.userSelected)
+    const [inputData, setInputData] = useState()
+    const [myID, setMyID] = useState(0)
     const dispatch = useDispatch()
 
-    useEffect(() => {
-        setInputData('')
-    }, [selectedUser])
-
-    useEffect(() => {
-        message && dispatch(sendMessage({
-            selectedUser: selectedUser,
-            message: message,
-        }))
-        console.log(message)
-        
-    }, [message])
-
     const handleSend = (() => {
-        dispatch(storeMessage({
-            selectedUser: selectedUser,
-            mes: inputData,
-            userID: myID,
+        dispatch(addMessage({
+            message: inputData,
+            userID: selectedUser.id,
+            myID: myID
         }))
+
         setInputData('')
     })
     
     const handleEnter = ((e) => {
         inputData && handleSend();
     })
+
     return ( 
         <>
         {selectedUser != null && <Flex mt='.5em' alignItems='center'>
