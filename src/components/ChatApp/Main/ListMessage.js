@@ -5,7 +5,7 @@ import {useSelector} from 'react-redux'
 
 const ListMessage = () => {
 
-    const { message }= useSelector((state) => state)
+    const { message } = useSelector((state) => state)
     const { userSelected } = useSelector((state) => state.user)
     const ref = useRef(null)
 

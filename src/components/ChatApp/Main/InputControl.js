@@ -4,6 +4,7 @@ import { AiFillSmile,AiFillLike } from "react-icons/ai";
 import { useSelector,useDispatch } from "react-redux";
 import InputEmoji from "react-input-emoji";
 import { addMessage } from "../../../store/message/reducer";
+import { sendMessage } from "../../../store/message/action";
 
 const InputControl = () => {
 
@@ -13,12 +14,7 @@ const InputControl = () => {
     const dispatch = useDispatch()
 
     const handleSend = (() => {
-        dispatch(addMessage({
-            message: inputData,
-            userID: selectedUser.id,
-            myID: myID
-        }))
-
+        dispatch(sendMessage(inputData, myID))
         setInputData('')
     })
     
