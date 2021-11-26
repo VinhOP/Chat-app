@@ -4,7 +4,7 @@ import { AiFillSmile,AiFillLike } from "react-icons/ai";
 import { useSelector,useDispatch } from "react-redux";
 import InputEmoji from "react-input-emoji";
 import { addMessage } from "../../../store/message/reducer";
-import { sendMessage } from "../../../store/message/action";
+import { sendMessage, setDefaultSelectedUser } from "../../../store/message/action";
 
 const InputControl = () => {
 
@@ -18,6 +18,10 @@ const InputControl = () => {
         setInputData('')
     })
     
+    useEffect(() => {
+        dispatch(setDefaultSelectedUser())
+    },[dispatch])
+
     const handleEnter = ((e) => {
         inputData && handleSend();
     })

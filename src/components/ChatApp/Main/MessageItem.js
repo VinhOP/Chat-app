@@ -1,14 +1,15 @@
 import { Flex,Text } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
+import { selectedUser } from "../../../store/user/selector";
 
 const MessageItem = () => {
     
-    const { userSelected }= useSelector((state) => state.user)
-    const message = useSelector((state) => state.message)
+    const { userSelected } = useSelector((state) => state.user)
+    const message = useSelector(selectedUser)
 
     return ( 
         <>
-        {(userSelected != null) && message.messages[userSelected.id].map((mes) => {
+        {(userSelected != null) && message.map((mes) => {
             return  <Flex key={mes.id}>
                     <Flex 
                     w='full'
