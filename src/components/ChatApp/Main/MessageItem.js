@@ -9,23 +9,14 @@ import { selectedUser } from "../../../store/user/selector";
 const MessageItem = () => {
 
     const [mesSelected, setMesSelected] = useState()
-    const [showList, setShowList] = useState(false)
+    
     const { userSelected,myID } = useSelector((state) => state.user)
+    const [showList, setShowList] = useState(false)
     const message = useSelector(selectedUser)
 
     const dispatch = useDispatch()
-    const showMoreIcon = ((mes) => {
-        if((mesSelected == mes.id) && !mes.deleted && (mes.userID == myID)) {
-            return 'true'
-        }
-        return 'none'
-    })
 
-    const showMoreList = ((mes) => {
-        if(mesSelected == mes.id) setShowList(!showList)
-    })
-
-    const handleOnMouseLeave = () => {
+    const handleMouseLeave = () => {
         setMesSelected()
         setShowList(false)
     }
@@ -33,35 +24,38 @@ const MessageItem = () => {
     return ( 
         <>
         {(userSelected != null) && message.map((mes) => {
-            return  <Flex key={mes.id}>
+            return  <Flex key={mes.id} onMouseLeave={handleMouseLeave}>
                     <Flex 
                     w='full'
                     flexDir='column'
                     >
                       <Flex alignSelf='center'>  <Text m='1em 0' color='gray.500'> {mes.createAt} </Text> </Flex>
                         <Flex 
-                        alignSelf = {userSelected.id == mes.userID? 'flex-start' : 'flex-end'}
-                        flexDir=  {userSelected.id == mes.userID? 'row-reverse' : 'row'}
+                        justifyContent = {userSelected.id == mes.userID? 'flex-start' : 'flex-end'}
                         m = '1em'
+                        pos='relative'
                         onMouseEnter={() => setMesSelected(mes.id)}
-                        onMouseLeave={handleOnMouseLeave}
+                        
                         >
-                            <Flex flexDir='column' w='4em' alignItems='center'>
+                            {((mes.userID == myID) && (mesSelected == mes.id) && !mes.deleted) && 
+                            <Flex flexDir='column-reverse' w='4em' alignItems='center'>
                                 <IconButton
                                 icon = {<AiOutlineMore size='1.5em'/>}
                                 w = '1em'
-                                d={() => showMoreIcon(mes)}
                                 bg={showList? 'gray.100' : 'none'}
                                 _focus={{boxShadow: 'none'}}
-                                onClick={() => showMoreList(mes)}
+                                onClick={() => setShowList(!showList)}
                                 />
 
-                                {(mesSelected == mes.id && showList) && 
+                                {showList && 
                                 <Button 
+                                zIndex={1}
+                                pos='absolute'
+                                bottom='2.7em'
                                 onClick={() => dispatch(deleteMessage(mes.id))}
                                 > delete 
                                 </Button>}
-                            </Flex>
+                            </Flex>}
                             
                             <Text
                             boxSize='fit-content'
