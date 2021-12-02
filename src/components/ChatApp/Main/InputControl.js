@@ -1,16 +1,14 @@
-import { useState,useEffect, useRef, useContext } from "react"
-import { Flex,Textarea,Button,Text } from "@chakra-ui/react";
-import { AiFillSmile,AiFillLike } from "react-icons/ai";
+import { useState,useEffect } from "react";
+import { Flex,Button,Text } from "@chakra-ui/react";
+import { AiFillLike } from "react-icons/ai";
 import { useSelector,useDispatch } from "react-redux";
 import InputEmoji from "react-input-emoji";
-import { addMessage } from "../../../store/message/reducer";
 import { sendMessage, setDefaultSelectedUser } from "../../../store/message/action";
 
 const InputControl = () => {
 
-    const selectedUser = useSelector((state) => state.user.userSelected)
+    const { userSelected, myID } = useSelector((state) => state.user)
     const [inputData, setInputData] = useState()
-    const [myID, setMyID] = useState(0)
     const dispatch = useDispatch()
 
     const handleSend = (() => {
@@ -28,7 +26,7 @@ const InputControl = () => {
 
     return ( 
         <>
-        {selectedUser != null && <Flex mt='.5em' alignItems='center'>
+        {userSelected != null && <Flex mt='.5em' alignItems='center'>
                         <Flex w='55em'>
                             <InputEmoji
                             onChange = {setInputData}

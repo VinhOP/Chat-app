@@ -1,6 +1,5 @@
 import { setSelectedUser } from "../user/reducer";
-import { addMessage } from "./reducer";
-
+import { addMessage, deleteMes } from "./reducer";
 
 export const sendMessage = (message, myID) => {
     return (dispatch, getState) => {
@@ -15,6 +14,19 @@ export const sendMessage = (message, myID) => {
         }))
     }
 }
+
+export const deleteMessage = ((mesID) => {
+  return(dispatch,getState) => {
+    const {
+      user: {userSelected},
+    } = getState()
+
+    dispatch(deleteMes({
+      userID: userSelected.id,
+      mesID: mesID
+    }))
+  }
+})
 
 export const setDefaultSelectedUser = () => {
     return (dispatch, getState) => {

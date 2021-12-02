@@ -15,7 +15,8 @@ const initialState = {
             name: 'Tuyet',
         },
     },
-    userSelected: null
+    userSelected: null,
+    myID: 0
 }
 
 export const userSlice = createSlice({

@@ -10,7 +10,7 @@ const ListUser = () => {
         const {id} = e.currentTarget
         dispatch(setSelectedUser({id: id}))
     }
-    console.log(userSelected)
+    
     return (
         <Flex w='20em' bg='white' flexDirection='column'>
                     {Object.values(users).map(user => {
